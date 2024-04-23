@@ -1,14 +1,14 @@
-from flask import Blueprint, request, jsonify, make_response, current_app
+from flask import Blueprint, request, jsonify, make_response
 import json
 from src import db
 
 
-products = Blueprint('RestaurantTables', __name__)
+restauranttables = Blueprint('restauranttables', __name__)
 
 # RestaurantTables(referred to as tables in assignment 6)
-@RestaurantTables.route('/RestaurantTables', methods=['GET', 'POST'])
-def RestaurantTables():
-    cursor = db.cursor(dictionary=True)
+@restauranttables.route('/restauranttables', methods=['GET', 'POST'])
+def RestaurantTables_get():
+    cursor = db.get_db().cursor()
     if request.method == 'GET':
         cursor.execute("SELECT * FROM RestaurantTables")
         RestaurantTables = cursor.fetchall()
@@ -23,9 +23,9 @@ def RestaurantTables():
         
         
 # RestaurantTables{TableID}(referred to as tables{id} in assignment 6 submission)
-@RestaurantTables.route('/RestaurantTables/<int:TableID>', methods=['GET', 'PUT', 'DELETE'])
-def RestaurantTables(TableID):
-    cursor = db.cursor(dictionary=True)
+@restauranttables.route('/restauranttables/<int:TableID>', methods=['GET', 'PUT', 'DELETE'])
+def RestaurantTables_post(TableID):
+    cursor = db.get_db().cursor()
     if request.method == 'GET':
         cursor.execute("SELECT * FROM RestaurantTables WHERE TableID = %s", (TableID,))
         RestaurantTables = cursor.fetchone()
